@@ -23,7 +23,7 @@ class MaxHeap {
 			 this.restoreRootFromLastInsertedNode(detached);
 		     this.shiftNodeDown(this.root);
 		     }
-		 return x;
+		 return x;						
 		}
 	}
 
@@ -113,24 +113,18 @@ class MaxHeap {
 	}
 
 	shiftNodeDown(node) {
-		var buf=new Node(null,null);
-		if (node.right!=null && (node.priority<node.right.priority || node.priority<node.left.priority )) { 
-		 if (node.right.priority>node.left.priority) {
-			 this.parentNodes.splice(this.parentNodes.indexOf(node.right),1,node);
-			 node.right.swapWithParent();
-		     } 
-		 else {
-			 this.parentNodes.splice(this.parentNodes.indexOf(node.left),1,node);
-			 node.left.swapWithParent();
-		     }   
-		 this.shiftNodeDown(node);
-		}
-		else if (node.left!=null && node.priority<node.left.priority) {
-			this.parentNodes.splice(this.parentNodes.indexOf(node),1,node.left);
-		    this.parentNodes.splice(this.parentNodes.lastIndexOf(node.left),1,node);
-			node.left.swapWithParent();
-			this.shiftNodeDown(node);
-		}
+		var max=new Node(null,null);
+		max=node;		
+		if (node.left!=null && node.priority<node.left.priority) max=node.left; 
+        if (node.right!=null && max.priority<node.right.priority) max=node.right;		
+		if (max.priority>node.priority) {
+			max.swapWithParent();
+			if (this.root==node) this.root=node.parent;
+			this.parentNodes.splice(this.parentNodes.indexOf(node),1,max);
+			this.parentNodes.splice(this.parentNodes.lastIndexOf(max),1,node);
+			
+		    this.shiftNodeDown(node);
+		 }
 	}
 }
 
