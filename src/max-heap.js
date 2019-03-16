@@ -39,9 +39,9 @@ class MaxHeap {
 			this.root.left.parent=null;
 			this.root.left=null;
 		    }
-			this.parentNodes.splice(this.parentNodes.indexOf(x),1);
+			if (this.parentNodes.indexOf(x)!=-1)this.parentNodes.splice(this.parentNodes.indexOf(x),1);
 		}
-		this.nodes.splice(this.nodes.indexOf(x),1);
+		if (this.nodes.indexOf(x)!=-1) this.nodes.splice(this.nodes.indexOf(x),1);
 		this.root=null;
 		return x
 	}
@@ -115,16 +115,15 @@ class MaxHeap {
 	shiftNodeDown(node) {
 		var max=new Node(null,null);
 		max=node;		
-		if (node.left!=null && node.priority<node.left.priority) max=node.left; 
+		if (node.left!=null && max.priority<node.left.priority) max=node.left; 
         if (node.right!=null && max.priority<node.right.priority) max=node.right;		
 		if (max.priority>node.priority) {
-			max.swapWithParent();
-			if (this.root==node) this.root=node.parent;
-			this.parentNodes.splice(this.parentNodes.indexOf(node),1,max);
-			this.parentNodes.splice(this.parentNodes.lastIndexOf(max),1,node);
-			
+			if (this.root==node) this.root=max;
+			max.swapWithParent();			
+			if(node.right==null)this.parentNodes.splice(this.parentNodes.indexOf(max),1,node);
+		    if(max.right==null)this.parentNodes.splice(this.parentNodes.indexOf(node),1,node.parent);
 		    this.shiftNodeDown(node);
-		 }
+		}
 	}
 }
 

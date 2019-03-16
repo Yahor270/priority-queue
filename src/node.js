@@ -42,7 +42,7 @@ class Node {
 			else this.parent.parent.right=this;
 			}
 			if (this==this.parent.left) buf=this.parent.right;
-			else buf=this.parent.left;			
+			if (this==this.parent.right) buf=this.parent.left;			
 		    if (this.left!=null) this.left.parent=this.parent;							
 			if (this.right!=null) this.right.parent=this.parent;						
 			if (this==this.parent.left) {
