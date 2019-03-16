@@ -19,7 +19,7 @@ class Node {
 	}
 
 	removeChild(node) {
-     if(this.left==node) {
+     if(node==this.left) {
 		 this.left.parent=null;
 		 this.left=null;
 	     }
@@ -38,30 +38,37 @@ class Node {
 		if (this.parent!=null){
 			var buf=new Node(null,null);
 			if (this.parent.parent!=null) {	
-			if (this.parent.parent.left==this.parent) this.parent.parent.left=this;
-			else this.parent.parent.right=this;
+			 if (this.parent.parent.left==this.parent) this.parent.parent.left=this;
+			 else this.parent.parent.right=this;
+			 			
 			}
-			if (this==this.parent.left) buf=this.parent.right;
-			if (this==this.parent.right) buf=this.parent.left;			
+					
 		    if (this.left!=null) this.left.parent=this.parent;							
-			if (this.right!=null) this.right.parent=this.parent;						
-			if (this==this.parent.left) {
+			if (this.right!=null) this.right.parent=this.parent;
+			
+			if (this.parent.left==this) {
+				
+				buf=this.parent.right;
+				
 				this.parent.left=this.left;
 				this.parent.right=this.right;
-				this.left=this.parent;
-				this.parent=this.parent.parent;
-				this.left.parent=this;				
+				this.left=this.parent;							
 				this.right=buf;
+				this.parent=this.parent.parent;
+				this.left.parent=this;	
 				if (buf!=null) this.right.parent=this;
 			}
-			else {
+			else if(this.parent.right==this)
+				{
+				buf=this.parent.left;
+				
                 this.parent.left=this.left;
 				this.parent.right=this.right;
 				this.right=this.parent;
 				this.parent=this.parent.parent;
 				this.right.parent=this;
 				this.left=buf;
-				if (buf!=null) this.left.parent=this;						
+				this.left.parent=this;						
 			}
 			
 			
